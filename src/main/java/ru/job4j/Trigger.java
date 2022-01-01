@@ -7,4 +7,8 @@ public class Trigger {
     public int someLogic() {
         return 1;
     }
+
+    public int someFromTwo() {
+        return 2;
+    }
 }

@@ -1,3 +1,7 @@
+[![job4j_grabber](https://github.com/dmitryjob4j/job4j_grabber/actions/workflows/maven.yml/badge.svg)](https://github.com/dmitryjob4j/job4j_grabber/actions/workflows/maven.yml)
+
+[![codecov](https://codecov.io/gh/dmitryjob4j/job4j_grabber/branch/master/graph/badge.svg?token=6W0J88JB0N)](https://codecov.io/gh/dmitryjob4j/job4j_grabber)
+
 **Агрегатор Java Вакансий**
 
 **Описание.**
