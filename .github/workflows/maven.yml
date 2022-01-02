@@ -28,3 +28,6 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+      - uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: '14'
