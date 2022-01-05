@@ -35,7 +35,7 @@ public class Post {
      * created типа LocalDateTime - дата создания вакансии.
      */
     private LocalDateTime created;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy, HH:mm", Locale.getDefault());
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy, HH:mm", Locale.getDefault());
 
     public Post(String titel, String link, String description, LocalDateTime created) {
         this.titel = titel;
