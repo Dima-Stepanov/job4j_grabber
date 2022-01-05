@@ -1,7 +1,5 @@
 package ru.job4j.grabber.utils;
 
-import org.apache.log4j.helpers.DateTimeDateFormat;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,8 +18,10 @@ import java.util.Map;
 public class SqlRuDateTimeParser implements DateTimeParser {
     private static final DateTimeFormatter NOW_YESTERDAY = DateTimeFormatter.ofPattern("d M yy");
     private static final DateTimeFormatter FORMAT_PARSE = DateTimeFormatter.ofPattern("d M yy HH:mm");
+    private static final int SIZE_DATE = 4;
+    private static final int SIZE_DATE_NOW_YESTERDAY = 2;
     private static final Map<String, String> MONTHS = Map.ofEntries(
-            Map.entry("вчера", LocalDate.now().format(NOW_YESTERDAY)),
+            Map.entry("вчера", LocalDate.now().minusDays(1).format(NOW_YESTERDAY)),
             Map.entry("сегодня", LocalDate.now().format(NOW_YESTERDAY)),
             Map.entry("янв", "1"), Map.entry("фев", "2"), Map.entry("мар", "3"),
             Map.entry("апр", "4"), Map.entry("май", "5"), Map.entry("июн", "6"),
@@ -40,12 +40,12 @@ public class SqlRuDateTimeParser implements DateTimeParser {
     public LocalDateTime parse(String parse) {
         String[] date = parse.split("[, ]+");
         String parseDateTime = "";
-        if (date.length == 4) {
+        if (date.length == SIZE_DATE) {
             parseDateTime = String.join(
                     " ", date[0], MONTHS.get(date[1]),
                     date[2], date[3]);
         }
-        if (date.length == 2) {
+        if (date.length == SIZE_DATE_NOW_YESTERDAY) {
             parseDateTime = String.join(
                     " ", MONTHS.get(date[0]),
                     date[1]);

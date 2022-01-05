@@ -61,7 +61,7 @@ public class SqlRuDateTimeParserTest {
     public void whenParseDateSqlRuYesterday() {
         String dataSql = "вчера, 19:23";
         LocalDateTime result = timeParser.parse(dataSql);
-        LocalDateTime expected = LocalDate.now().atTime(19, 23);
+        LocalDateTime expected = LocalDate.now().minusDays(1).atTime(19, 23);
         assertThat(result, is(expected));
     }
 
@@ -69,7 +69,7 @@ public class SqlRuDateTimeParserTest {
     public void whenParseDateSqlRuYesterdayTwo() {
         String dataSql = "вчера, 12:06";
         LocalDateTime result = timeParser.parse(dataSql);
-        LocalDateTime expected = LocalDate.now().atTime(12, 6);
+        LocalDateTime expected = LocalDate.now().minusDays(1).atTime(12, 6);
         assertThat(result, is(expected));
     }
 
