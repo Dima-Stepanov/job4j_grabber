@@ -18,16 +18,15 @@ import java.util.Map;
  * @since 05.01.2021.
  */
 public class SqlRuDateTimeParser implements DateTimeParser {
+    private static final DateTimeFormatter NOW_YESTERDAY = DateTimeFormatter.ofPattern("d M yy");
+    private static final DateTimeFormatter FORMAT_PARSE = DateTimeFormatter.ofPattern("d M yy HH:mm");
     private static final Map<String, String> MONTHS = Map.ofEntries(
-            Map.entry("вчера", LocalDate.now()
-                    .format(DateTimeFormatter.ofPattern("d M yy"))),
-            Map.entry("сегодня", LocalDate.now()
-                    .format(DateTimeFormatter.ofPattern("d M yy"))),
+            Map.entry("вчера", LocalDate.now().format(NOW_YESTERDAY)),
+            Map.entry("сегодня", LocalDate.now().format(NOW_YESTERDAY)),
             Map.entry("янв", "1"), Map.entry("фев", "2"), Map.entry("мар", "3"),
             Map.entry("апр", "4"), Map.entry("май", "5"), Map.entry("июн", "6"),
             Map.entry("июл", "7"), Map.entry("авг", "8"), Map.entry("сен", "9"),
             Map.entry("окт", "10"), Map.entry("ноя", "11"), Map.entry("дек", "12"));
-    private static final DateTimeFormatter FORMAT_PARSE = DateTimeFormatter.ofPattern("d M yy HH:mm");
 
     /**
      * Преобразует строку с датой с сайта SQL.RU в LocalDataTime
