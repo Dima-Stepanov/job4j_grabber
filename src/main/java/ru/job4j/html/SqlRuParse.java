@@ -75,7 +75,6 @@ public class SqlRuParse implements Parse {
         Post post = null;
         try {
             Document doc = Jsoup.connect(link).get();
-            Element row = doc.selectFirst(".msgTable");
             post = new Post(
                     doc.select(".messageHeader").get(0).ownText(),
                     link,
