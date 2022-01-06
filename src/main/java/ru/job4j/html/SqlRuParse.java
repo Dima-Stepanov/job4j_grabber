@@ -89,26 +89,6 @@ public class SqlRuParse implements Parse {
     }
 
     /**
-     * Метод для загрузки деталей объявления.
-     * Загружает описание объявления и дату поста.
-     *
-     * @param link Ссылка объявления.
-     * @return String description.
-     */
-    private static String getDescription(String link) {
-        StringJoiner result = new StringJoiner(System.lineSeparator());
-        try {
-            Document doc = Jsoup.connect(link).get();
-            Element row = doc.selectFirst(".msgTable");
-            result.add(row.child(0).child(1).child(1).text());
-            result.add(row.child(0).child(2).child(0).ownText().split("\s\\[")[0]);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result.toString();
-    }
-
-    /**
      * Парсинг вакансий
      * Link: https://www.sql.ru/forum/job-offers/
      *
