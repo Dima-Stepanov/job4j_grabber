@@ -11,7 +11,6 @@ import ru.job4j.model.Post;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
 
 /**
  * 2.3.6. Проект. Агрегатор Java вакансий
@@ -28,6 +27,7 @@ import java.util.StringJoiner;
  */
 public class SqlRuParse implements Parse {
     private static final String JAVA = "java";
+    private static final String JAVASCRIPT = "javascript";
     private final DateTimeParser dateTimeParser;
 
     public SqlRuParse(DateTimeParser dateTimeParser) {
@@ -51,7 +51,7 @@ public class SqlRuParse implements Parse {
                 for (Element td : row) {
                     String hrefLink = td.child(0).attr("href");
                     String title = td.child(0).ownText().toLowerCase();
-                    if (title.contains(JAVA)) {
+                    if (title.contains(JAVA) && !title.contains(JAVASCRIPT)) {
                         postList.add(
                                 detail(hrefLink));
                     }
@@ -77,10 +77,11 @@ public class SqlRuParse implements Parse {
             Document doc = Jsoup.connect(link).get();
             Element row = doc.selectFirst(".msgTable");
             post = new Post(
-                    row.child(0).child(0).child(0).ownText(),
+                    doc.select(".messageHeader").get(0).ownText(),
                     link,
-                    row.child(0).child(1).child(1).text(),
-                    dateTimeParser.parse(row.child(0).child(2).child(0).ownText().split("\s\\[")[0])
+                    doc.select(".msgBody").get(1).text(),
+                    dateTimeParser.parse(
+                            doc.select(".msgFooter").get(0).text().split("\s\\[")[0])
             );
         } catch (Exception e) {
             e.printStackTrace();
