@@ -1,4 +1,4 @@
-package ru.job4j.quartz;
+package ru.job4j.grabber.quartz;
 
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
@@ -77,7 +77,6 @@ public class AlertRabbit {
      *
      * @param properties Properties
      * @return Connection.
-     * @throws Exception ClassNotFoundException, SQLException
      */
     private static Connection getConnection(Properties properties) throws ClassNotFoundException, SQLException {
         Class.forName(properties.getProperty("driver"));
@@ -103,7 +102,7 @@ public class AlertRabbit {
         }
 
         @Override
-        public void execute(JobExecutionContext context) throws JobExecutionException {
+        public void execute(JobExecutionContext context) {
             System.out.println("Rabbit runs here ...");
             Connection connect = (Connection) context
                     .getJobDetail()
