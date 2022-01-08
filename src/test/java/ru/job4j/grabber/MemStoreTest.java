@@ -2,6 +2,7 @@ package ru.job4j.grabber;
 
 import org.junit.Test;
 import ru.job4j.grabber.model.Post;
+import ru.job4j.grabber.store.MemStore;
 
 import java.time.LocalDateTime;
 import java.util.List;
