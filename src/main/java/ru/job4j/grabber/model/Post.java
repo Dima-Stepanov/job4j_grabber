@@ -99,10 +99,11 @@ public class Post {
 
     @Override
     public String toString() {
-        return "Post{" + "id=" + id + ", titel='"
-                + titel + '\'' + ", link='" + link + '\''
-                + ", description='" + description + '\''
-                + ", created=" + created.format(formatter) + '}';
+        String sl = System.lineSeparator();
+        return "id=" + id + sl + ", titel='"
+                + titel + '\'' + sl + "\t, link=" + link
+                + sl + ", description='" + description + '\''
+                + sl + "\t" + created.format(formatter);
     }
 
     @Override
