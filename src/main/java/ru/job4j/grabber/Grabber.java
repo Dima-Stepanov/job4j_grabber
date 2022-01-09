@@ -4,6 +4,8 @@ import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import ru.job4j.grabber.html.Parse;
 import ru.job4j.grabber.html.SqlRuParse;
+import ru.job4j.grabber.model.Post;
+import ru.job4j.grabber.store.MemStore;
 import ru.job4j.grabber.store.PsqlStore;
 import ru.job4j.grabber.store.Store;
 import ru.job4j.grabber.utils.DateTimeParser;
@@ -11,6 +13,10 @@ import ru.job4j.grabber.utils.SqlRuDateTimeParser;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
@@ -24,6 +30,8 @@ import static org.quartz.TriggerBuilder.newTrigger;
  * 6. Grabber. [#289477]
  * Задание:1. Реализовать класс Grabber.
  * Он должен выполнять все действия из технического задания.
+ * 7. Web.[#289478]
+ * Задание:1. Доработайте проект grabber. Для отображения результата на localhost:9000
  *
  * @author Dima_Nout
  * @since 09.01.2022
@@ -107,6 +115,33 @@ public class Grabber implements Grab {
         }
     }
 
+    /**
+     * Отображение результата по адресу http://localhost:9000/
+     *
+     * @param store Store.
+     */
+    public void web(Store store) {
+        new Thread(() -> {
+            try (ServerSocket server = new ServerSocket(
+                    Integer.parseInt(config.getProperty("port")))) {
+                while (!server.isClosed()) {
+                    Socket socket = server.accept();
+                    try (OutputStream out = socket.getOutputStream()) {
+                        out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                        for (Post post : store.getAll()) {
+                            out.write(post.toString().getBytes(Charset.forName("Windows-1251")));
+                            out.write(System.lineSeparator().getBytes());
+                        }
+                    } catch (IOException io) {
+                        io.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
     public static void main(String[] args) throws Exception {
         Grabber grab = new Grabber();
         grab.config();
@@ -114,5 +149,6 @@ public class Grabber implements Grab {
         Store store = grab.store();
         DateTimeParser dateTimeParser = new SqlRuDateTimeParser();
         grab.init(new SqlRuParse(dateTimeParser), store, scheduler);
+        grab.web(store);
     }
 }
