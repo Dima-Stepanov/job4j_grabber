@@ -106,12 +106,13 @@ public class Post {
             return false;
         }
         Post post = (Post) o;
-        return Objects.equals(titel, post.titel)
+        return id == post.id
+                && Objects.equals(titel, post.titel)
                 && Objects.equals(link, post.link);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(titel, link);
+        return Objects.hash(id, titel, link);
     }
 }
