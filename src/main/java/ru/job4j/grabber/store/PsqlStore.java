@@ -2,9 +2,7 @@ package ru.job4j.grabber.store;
 
 import ru.job4j.grabber.model.Post;
 
-import java.io.InputStream;
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -128,36 +126,15 @@ public class PsqlStore implements Store, AutoCloseable {
         return post;
     }
 
+    /**
+     * Класс закрывает Connection.
+     *
+     * @throws Exception exception.
+     */
     @Override
     public void close() throws Exception {
         if (connect != null) {
             connect.close();
         }
-    }
-
-    public static void main(String[] args) {
-        Properties config = new Properties();
-        try (InputStream in = PsqlStore.class
-                .getClassLoader()
-                .getResourceAsStream("rabbit.properties")) {
-            config.load(in);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        PsqlStore psqlStore = new PsqlStore(config);
-        Post post = new Post("Разработчик Java", "jobJava.ru",
-                "Работа мечты разработчик Java",
-                LocalDateTime.of(2022, 1, 9, 16, 42));
-        Post post1 = new Post("Обучение Java", "job4j.ru",
-                "Обучение на разработчик Java, от обучения до трудоустройства 6 месяцев",
-                LocalDateTime.of(2022, 1, 9, 16, 43));
-        psqlStore.save(post);
-        psqlStore.save(post1);
-        System.out.println("Method findById:");
-        System.out.println(psqlStore.findById(post.getId()));
-        System.out.println(psqlStore.findById(post1.getId()));
-        System.out.println("Method getAll:");
-        List<Post> list = psqlStore.getAll();
-        list.forEach(System.out::println);
     }
 }

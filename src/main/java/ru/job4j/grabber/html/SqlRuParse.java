@@ -5,7 +5,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import ru.job4j.grabber.utils.DateTimeParser;
-import ru.job4j.grabber.utils.SqlRuDateTimeParser;
 import ru.job4j.grabber.model.Post;
 
 import java.util.ArrayList;
@@ -86,20 +85,4 @@ public class SqlRuParse implements Parse {
         }
         return post;
     }
-
-    /**
-     * Парсинг вакансий
-     * Link: https://www.sql.ru/forum/job-offers/
-     *
-     * @param args String[]
-     */
-    public static void main(String[] args) {
-        SqlRuParse sqlRuParse = new SqlRuParse(new SqlRuDateTimeParser());
-        List<Post> listPost = sqlRuParse.list("https://www.sql.ru/forum/job-offers/");
-        for (Post post : listPost) {
-            System.out.println(post);
-        }
-        System.out.println(listPost.size());
-    }
-
 }
