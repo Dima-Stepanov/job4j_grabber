@@ -15,7 +15,7 @@ import java.util.Properties;
  * @since 09.01.2022
  */
 public class PsqlStore implements Store, AutoCloseable {
-    Connection connect;
+    private Connection connect;
 
     /**
      * Конструктор создает соединение с базой данных.
@@ -81,14 +81,7 @@ public class PsqlStore implements Store, AutoCloseable {
                 "select * from post")) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    Post post = new Post(
-                            resultSet.getString("name"),
-                            resultSet.getString("link"),
-                            resultSet.getString("text"),
-                            resultSet.getTimestamp("created").toLocalDateTime()
-                    );
-                    post.setId(resultSet.getInt("id"));
-                    result.add(post);
+                    result.add(getPost(resultSet));
                 }
             }
         } catch (Exception e) {
@@ -111,19 +104,29 @@ public class PsqlStore implements Store, AutoCloseable {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    post = new Post(
-                            resultSet.getString("name"),
-                            resultSet.getString("link"),
-                            resultSet.getString("text"),
-                            resultSet.getTimestamp("created").toLocalDateTime()
-                    );
-                    post.setId(resultSet.getInt("id"));
+                    post = getPost(resultSet);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return post;
+    }
+
+    /**
+     * Метод возвращает модель Post из SQL запроса.
+     *
+     * @param resultSet ResultSet
+     * @return Post
+     * @throws SQLException exception.
+     */
+    private Post getPost(ResultSet resultSet) throws SQLException {
+        return new Post(
+                resultSet.getInt("id"),
+                resultSet.getString("name"),
+                resultSet.getString("link"),
+                resultSet.getString("text"),
+                resultSet.getTimestamp("created").toLocalDateTime());
     }
 
     /**
