@@ -2,14 +2,15 @@ package ru.job4j.grabber;
 
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.job4j.grabber.html.CareerHabrParse;
 import ru.job4j.grabber.html.Parse;
-import ru.job4j.grabber.html.SqlRuParse;
 import ru.job4j.grabber.model.Post;
-import ru.job4j.grabber.store.MemStore;
 import ru.job4j.grabber.store.PsqlStore;
 import ru.job4j.grabber.store.Store;
+import ru.job4j.grabber.utils.CareerHabrDateTimeParser;
 import ru.job4j.grabber.utils.DateTimeParser;
-import ru.job4j.grabber.utils.SqlRuDateTimeParser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +20,7 @@ import java.net.Socket;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Properties;
 
 import static org.quartz.JobBuilder.newJob;
@@ -37,6 +39,7 @@ import static org.quartz.TriggerBuilder.newTrigger;
  * @since 09.01.2022
  */
 public class Grabber implements Grab {
+    private static final Logger LOG = LoggerFactory.getLogger(Grabber.class);
     private final Properties config = new Properties();
 
     /**
@@ -102,7 +105,7 @@ public class Grabber implements Grab {
      * Задача для Scheduler.
      */
     public static class GrabJob implements Job {
-        private static final String LINK = "https://www.sql.ru/forum/job-offers/";
+        private static final String LINK = "https://career.habr.com/vacancies/java_developer";
         private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("dd:MMM:yy, HH:mm");
 
         @Override
@@ -111,12 +114,15 @@ public class Grabber implements Grab {
             Store store = (Store) map.get("store");
             Parse parse = (Parse) map.get("parse");
             parse.list(LINK).forEach(store::save);
-            System.out.printf("parse SqlRu %s%n", LocalDateTime.now().withNano(0).format(TIME_FORMAT));
+            LOG.debug("parse CareerHabrRu {}",
+                    LocalDateTime.now()
+                            .truncatedTo(ChronoUnit.SECONDS)
+                            .format(TIME_FORMAT));
         }
     }
 
     /**
-     * Отображение результата по адресу http://localhost:9000/
+     * Отображение результата по адресу <a href="http://localhost:9000/">...</a>
      *
      * @param store Store.
      */
@@ -137,7 +143,7 @@ public class Grabber implements Grab {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.error("WEB socket error: {}", e);
             }
         }).start();
     }
@@ -147,8 +153,8 @@ public class Grabber implements Grab {
         grab.config();
         Scheduler scheduler = grab.scheduler();
         Store store = grab.store();
-        DateTimeParser dateTimeParser = new SqlRuDateTimeParser();
-        grab.init(new SqlRuParse(dateTimeParser), store, scheduler);
+        DateTimeParser dateTimeParser = new CareerHabrDateTimeParser();
+        grab.init(new CareerHabrParse(dateTimeParser), store, scheduler);
         grab.web(store);
     }
 }

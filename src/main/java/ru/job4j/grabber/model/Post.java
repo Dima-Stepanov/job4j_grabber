@@ -22,7 +22,7 @@ public class Post {
     /**
      * title типа String - название вакансии;
      */
-    private String titel;
+    private String title;
     /**
      * link типа String - ссылка на описание вакансии;
      */
@@ -35,18 +35,19 @@ public class Post {
      * created типа LocalDateTime - дата создания вакансии.
      */
     private LocalDateTime created;
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy, HH:mm", Locale.getDefault());
+    private DateTimeFormatter formatter = DateTimeFormatter
+            .ofPattern("d-MMM-yyyy, HH:mm", Locale.getDefault());
 
-    public Post(String titel, String link, String description, LocalDateTime created) {
-        this.titel = titel;
+    public Post(String title, String link, String description, LocalDateTime created) {
+        this.title = title;
         this.link = link;
         this.description = description;
         this.created = created;
     }
 
-    public Post(int id, String titel, String link, String description, LocalDateTime created) {
+    public Post(int id, String title, String link, String description, LocalDateTime created) {
         this.id = id;
-        this.titel = titel;
+        this.title = title;
         this.link = link;
         this.description = description;
         this.created = created;
@@ -61,12 +62,12 @@ public class Post {
         return this;
     }
 
-    public String getTitel() {
-        return titel;
+    public String getTitle() {
+        return title;
     }
 
-    public Post setTitel(String titel) {
-        this.titel = titel;
+    public Post setTitle(String title) {
+        this.title = title;
         return this;
     }
 
@@ -101,9 +102,9 @@ public class Post {
     public String toString() {
         String sl = System.lineSeparator();
         return "id=" + id + sl + ", titel='"
-                + titel + '\'' + sl + "\t, link=" + link
-                + sl + ", description='" + description + '\''
-                + sl + "\t" + created.format(formatter);
+               + title + '\'' + sl + "\t, link=" + link
+               + sl + ", description='" + description + '\''
+               + sl + "\t" + created.format(formatter);
     }
 
     @Override
@@ -116,12 +117,11 @@ public class Post {
         }
         Post post = (Post) o;
         return id == post.id
-                && Objects.equals(titel, post.titel)
-                && Objects.equals(link, post.link);
+               && Objects.equals(link, post.link);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, titel, link);
+        return Objects.hash(id, link);
     }
 }
