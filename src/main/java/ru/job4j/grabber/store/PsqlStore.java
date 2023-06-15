@@ -1,5 +1,7 @@
 package ru.job4j.grabber.store;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.job4j.grabber.model.Post;
 
 import java.sql.*;
@@ -15,6 +17,7 @@ import java.util.Properties;
  * @since 09.01.2022
  */
 public class PsqlStore implements Store, AutoCloseable {
+    private static final Logger LOG = LoggerFactory.getLogger(PsqlStore.class);
     private Connection connect;
 
     /**
@@ -31,7 +34,7 @@ public class PsqlStore implements Store, AutoCloseable {
                     config.getProperty("password")
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Init connect database error: {}", e);
         }
     }
 
@@ -65,7 +68,7 @@ public class PsqlStore implements Store, AutoCloseable {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Database method save error: {}", e);
         }
     }
 
@@ -85,7 +88,7 @@ public class PsqlStore implements Store, AutoCloseable {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Database method getAll error: {}", e);
         }
         return result;
     }
@@ -108,7 +111,7 @@ public class PsqlStore implements Store, AutoCloseable {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Database method findById error: {}", e);
         }
         return post;
     }
