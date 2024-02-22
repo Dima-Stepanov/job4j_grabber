@@ -36,7 +36,7 @@ JDK 16, Maven 3.8, PostgreSQL 14.
 1. Создайте базу данных grabber при помощи консоли PostgreSQL или терминала pgAdmin:<br>
    """CREATE DATABASE grabber"""
 2. Скопировать проект из репозитория по ссылке:
-   <a href=https://git@github.com:Dima-Stepanov/job4j_grabber.git><b>Агрегатор Java Вакансий</b></a>
+   [Агрегатор Java Вакансий](https://github.com/dima-abc/job4j_grabber.git)<br>
 3. Перейдите в корень проекта и при помощи Maven соберите проект командой:<br>
    """mvn install -Pproduction -Dmaven.test.skip=true"""
 4. После успешной сборки проекта перейдите в каталог собранного проекта <b>target</b> и запустите приложение
