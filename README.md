@@ -1,6 +1,6 @@
-[![job4j_grabber](https://github.com/Dima-Stepanov/job4j_grabber/actions/workflows/maven.yml/badge.svg)](https://github.com/Dima-Stepanov/job4j_grabber/actions/workflows/maven.yml)
+[![job4j_grabber](https://github.com/dima-abc/job4j_grabber/actions/workflows/maven.yml/badge.svg)](https://github.com/dima-abc/job4j_grabber/actions/workflows/maven.yml)
 
-[![codecov](https://codecov.io/gh/Dima-Stepanov/job4j_grabber/branch/master/graph/badge.svg?token=6W0J88JB0N)](https://codecov.io/gh/Dima-Stepanov/job4j_grabber)
+[![codecov](https://codecov.io/gh/dima-abc/job4j_grabber/branch/master/graph/badge.svg?token=6W0J88JB0N)](https://codecov.io/gh/dima-abc/job4j_grabber)
 
 # Агрегатор Java Вакансий
 
@@ -58,5 +58,5 @@ JDK 16, Maven 3.8, PostgreSQL 14.
 ### Контакты
 
 > email: [haoos@inbox.ru](mailto:haoos@inbox.ru) <br>
-> tl: [Dima_software](https://t.me/Dima_software) <br>
-> github.com: [Dima-Stepanov](https://github.com/Dima-Stepanov)
+> tl: [dima_abc](https://t.me/dima_abc) <br>
+> github.com: [dima-abc](https://github.com/dima-abc)
